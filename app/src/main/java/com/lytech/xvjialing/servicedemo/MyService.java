@@ -2,6 +2,7 @@ package com.lytech.xvjialing.servicedemo;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.IntDef;
 import android.util.Log;
@@ -9,13 +10,14 @@ import android.util.Log;
 public class MyService extends Service {
     private static final String TAG = MyService.class.getSimpleName();
 
+    private MyBinder mBinder=new MyBinder();
+
     public MyService() {
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return mBinder;
     }
 
     @Override
@@ -34,5 +36,11 @@ public class MyService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
+    }
+
+    class MyBinder extends Binder{
+        public void startDownload(){
+            Log.d(TAG, "startDownload: ");
+        }
     }
 }
