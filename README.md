@@ -85,3 +85,30 @@ public class MyService extends Service {
         unbindService(connection);
         break;
 ```
+
+3. 创建前台服务
+
+只需修改oncreate()函数
+```
+@Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d(TAG, "onCreate: ");
+
+        Notification notification=new Notification(R.mipmap.ic_launcher,"有通知到来",System.currentTimeMillis());
+        Intent notificationIntent=new Intent(this,MainActivity.class);
+        PendingIntent pendingIntent=PendingIntent.getActivity(this,0,notificationIntent,0);
+        startForeground(1,notification);
+    }
+```
+
+然后启动与停止服务
+
+```
+case R.id.btn_startForegroundService:
+    startService(new Intent(this,ForegroundService.class));
+    break;
+case R.id.btn_stopForegroundService:
+    stopService(new Intent(this,ForegroundService.class));
+    break;
+```

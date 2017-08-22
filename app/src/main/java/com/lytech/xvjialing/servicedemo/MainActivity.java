@@ -23,13 +23,17 @@ public class MainActivity extends AppCompatActivity {
     Button btnBindService;
     @BindView(R.id.btn_unbindService)
     Button btnUnbindService;
+    @BindView(R.id.btn_startForegroundService)
+    Button btnStartForegroundService;
+    @BindView(R.id.btn_stopForegroundService)
+    Button btnStopForegroundService;
 
     private MyService.MyBinder myBinder;
 
-    private ServiceConnection connection=new ServiceConnection() {
+    private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            myBinder= (MyService.MyBinder) iBinder;
+            myBinder = (MyService.MyBinder) iBinder;
             myBinder.startDownload();
         }
 
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.btn_startService, R.id.btn_stopService, R.id.btn_bindService, R.id.btn_unbindService})
+    @OnClick({R.id.btn_startService, R.id.btn_stopService, R.id.btn_bindService, R.id.btn_unbindService,R.id.btn_startForegroundService, R.id.btn_stopForegroundService})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_startService:
@@ -60,14 +64,19 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btn_bindService:
                 Intent intent3 = new Intent(this, MyService.class);
-                bindService(intent3,connection,BIND_AUTO_CREATE);
+                bindService(intent3, connection, BIND_AUTO_CREATE);
                 break;
             case R.id.btn_unbindService:
                 unbindService(connection);
                 break;
+            case R.id.btn_startForegroundService:
+                startService(new Intent(this,ForegroundService.class));
+                break;
+            case R.id.btn_stopForegroundService:
+                stopService(new Intent(this,ForegroundService.class));
+                break;
         }
 
     }
-
 
 }
